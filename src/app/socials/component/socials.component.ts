@@ -30,7 +30,7 @@ export class SocialsComponent {
     },
     {
       name: 'Twitter',
-      url: 'https://twitter.com/Joinsider',
+      url: 'https://x.com/lazerjoinside',
       icon_link: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg',
     },
     {
