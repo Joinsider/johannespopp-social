@@ -4,57 +4,62 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GithubService } from '../service/github.service';
 import { ProfileComponent } from "../../profile/profile.component";
-import { GithubRepository } from "../interface/github.interface";
+import { GithubRepository } from '../interface/github.interface';
 
 @Component({
-    selector: 'app-github-projects',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ProfileComponent],
-    templateUrl: './github.component.html',
-    styleUrls: ['./github.component.css']
+  selector: 'app-github-projects',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ProfileComponent],
+  templateUrl: './github.component.html',
+  styleUrls: ['./github.component.css']
 })
 export class GithubProjectsComponent implements OnInit {
-    repositories: GithubRepository[] = [];
-    filteredRepositories: GithubRepository[] = [];
-    searchQuery: string = '';
-    showForks: boolean = false;
+  repositories: GithubRepository[] = [];
+  filteredRepositories: GithubRepository[] = [];
+  searchQuery: string = '';
+  showForks: boolean = false;
 
-    constructor(private githubService: GithubService) {}
+  constructor(private githubService: GithubService) {}
 
-    ngOnInit() {
-        this.loadRepositories();
-    }
+  ngOnInit() {
+    this.loadRepositories();
+  }
 
-    loadRepositories() {
-        const username = 'JOINSIDER';
-        this.githubService.getPublicRepositories(username)
-            .subscribe((repos: GithubRepository[]) => {
-                this.repositories = [...repos].sort((a, b) => {
-                    const dateA = a.updated_at ? new Date(a.updated_at).getTime() : 0;
-                    const dateB = b.updated_at ? new Date(b.updated_at).getTime() : 0;
-                    return dateB - dateA;
-                });
-                this.filterRepositories(this.searchQuery);
-            });
-    }
-
-    filterRepositories(query: string) {
-        this.searchQuery = query;
-        this.filteredRepositories = this.repositories.filter(repo => {
-            const matchesSearch = !query ||
-                repo.name.toLowerCase().includes(query.toLowerCase()) ||
-                (repo.description && repo.description.toLowerCase().includes(query.toLowerCase()));
-
-            const showRepo = this.showForks || !repo.fork;
-
-            return matchesSearch && showRepo;
+  loadRepositories() {
+    const username = 'JOINSIDER';
+    this.githubService.getPublicRepositories(username)
+      .subscribe((repos: GithubRepository[]) => {
+        this.repositories = [...repos].sort((a, b) => {
+          const dateA = a.updated_at ? new Date(a.updated_at).getTime() : 0;
+          const dateB = b.updated_at ? new Date(b.updated_at).getTime() : 0;
+          return dateB - dateA;
         });
-    }
+        this.applyFilters();
+      });
+  }
 
-    toggleForks() {
-        this.showForks = !this.showForks;
-        this.filterRepositories(this.searchQuery);
-    }
+  filterRepositories(query: string) {
+    this.searchQuery = query;
+    this.applyFilters();
+  }
+
+  toggleForks(event: Event) {
+    event.preventDefault();
+    this.showForks = !this.showForks;
+    this.applyFilters();
+  }
+
+  private applyFilters() {
+    this.filteredRepositories = this.repositories.filter(repo => {
+      const matchesSearch = !this.searchQuery ||
+        repo.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        (repo.description && repo.description.toLowerCase().includes(this.searchQuery.toLowerCase()));
+
+      const showRepo = this.showForks || !repo.fork;
+
+      return matchesSearch && showRepo;
+    });
+  }
 
     getLanguageColor(language: string): string {
         const colors: { [key: string]: string } = {
