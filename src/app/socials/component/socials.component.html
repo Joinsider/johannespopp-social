@@ -1,0 +1,23 @@
+<div class="glass-panel">
+  <div class="header">
+    <h2 id="socialsHeading">Social Media Profiles</h2>
+  </div>
+
+  <div class="socials-grid">
+    <div *ngFor="let social of socials" class="social-card">
+      <div class="card-content">
+        <img [src]="social.icon_link" alt="Social Media Icon" class="social-icon"
+             [ngStyle]="{'filter': social.reverse ? 'invert(1)' : 'none'}"/>
+        <div class="social-info">
+          <h3>
+            <a [href]="social.url" target="_blank" class="social-link">
+              {{ social.name }}
+              <span class="external-link">↗</span>
+            </a>
+          </h3>
+          <p class="description">{{ social.description || 'No description available' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
