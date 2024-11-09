@@ -10,11 +10,7 @@
   display: inline-block;
 }
 
-.container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-  padding: 2rem;
-}
+
 
 .glass-panel {
   background: rgba(30, 30, 30, 0.7);
@@ -41,22 +37,97 @@ h2 {
 }
 
 .search-container {
-  flex: 0 1 300px;
-  min-width: 200px;
+  position: relative;
+  max-width: 300px;
+  width: 100%;
 }
 
-.search-input {
-  width: 100%;
+.search-wrapper {
+  position: relative;
+  display: flex;
   background: rgba(40, 40, 40, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  padding: 8px 16px;
+  height: 40px;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0 16px;
   color: rgba(255, 255, 255, 0.87);
   font-size: 0.9rem;
+  height: 100%;
+  min-width: 0;
+}
+
+.search-input:focus {
+  outline: none;
 }
 
 .search-input::placeholder {
   color: rgba(255, 255, 255, 0.4);
+}
+
+.fork-toggle-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 38px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+  margin: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.fork-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fork-toggle-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.fork-toggle-btn .fork-icon {
+  fill: rgba(255, 255, 255, 0.6);
+  transition: fill 0.2s ease;
+  width: 16px;
+  height: 16px;
+}
+
+.fork-toggle-btn.active .fork-icon {
+  fill: rgba(255, 255, 255, 0.9);
+}
+
+/* Tooltip styles */
+.fork-toggle-btn::after {
+  content: "Show forks";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  white-space: nowrap;
+}
+
+.fork-toggle-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 .projects-grid {
@@ -127,11 +198,36 @@ h2 {
   border-radius: 50%;
 }
 
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.fork-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.fork-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.87);
+  cursor: pointer;
+}
+
+.fork-label input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background: rgba(40, 40, 40, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
 /* Mobile styles */
 @media screen and (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
 
   .glass-panel {
     padding: 1rem;
@@ -144,8 +240,11 @@ h2 {
   }
 
   .search-container {
-    flex: 1;
     max-width: 100%;
+  }
+
+  .search-wrapper {
+    width: 100%;
   }
 
   .projects-grid {
@@ -155,6 +254,17 @@ h2 {
 
   .card-content {
     padding: 1rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .fork-toggle {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
   }
 }
 
