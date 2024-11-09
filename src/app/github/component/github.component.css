@@ -10,8 +10,6 @@
   display: inline-block;
 }
 
-
-
 .glass-panel {
   background: rgba(30, 30, 30, 0.7);
   backdrop-filter: blur(10px);
