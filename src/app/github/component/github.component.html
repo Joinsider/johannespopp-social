@@ -1,8 +1,8 @@
 <!-- github-projects.component.html -->
-<div class="container">
-  <div class="glass-panel">
-    <div class="header">
-      <h2 id="github_heading">GitHub Projects</h2>
+<div class="glass-panel">
+  <div class="header">
+    <h2 id="github_heading">GitHub Projects</h2>
+    <div class="controls">
       <div class="search-container" [class.expanded]="isSearchExpanded">
         <input
           type="text"
@@ -12,26 +12,36 @@
           class="search-input"
         >
       </div>
+      <div class="fork-toggle">
+        <label class="fork-label">
+          <input
+            type="checkbox"
+            [(ngModel)]="showForks"
+            (change)="toggleForks()"
+          >
+          Show forks
+        </label>
+      </div>
     </div>
+  </div>
 
-    <div class="projects-grid">
-      <div *ngFor="let repo of filteredRepositories" class="project-card">
-        <div class="card-content">
-          <h3>
-            <a [href]="repo.html_url" target="_blank" class="repo-link">
-              {{repo.name}}
-              <span class="external-link">↗</span>
-            </a>
-          </h3>
-          <p class="description">{{repo.description || 'No description available'}}</p>
-          <div class="stats">
-            <span title="Stars">⭐ {{repo.stargazers_count}}</span>
-            <span title="Forks">🔄 {{repo.forks_count}}</span>
-            <span *ngIf="repo.language" class="language">
+  <div class="projects-grid">
+    <div *ngFor="let repo of filteredRepositories" class="project-card">
+      <div class="card-content">
+        <h3>
+          <a [href]="repo.html_url" target="_blank" class="repo-link">
+            {{ repo.name }}
+            <span class="external-link">↗</span>
+          </a>
+        </h3>
+        <p class="description">{{ repo.description || 'No description available' }}</p>
+        <div class="stats">
+          <span title="Stars">⭐ {{ repo.stargazers_count }}</span>
+          <span title="Forks">🔄 {{ repo.forks_count }}</span>
+          <span *ngIf="repo.language" class="language">
               <span class="language-dot" [style.backgroundColor]="getLanguageColor(repo.language)"></span>
-              {{repo.language}}
+            {{ repo.language }}
             </span>
-          </div>
         </div>
       </div>
     </div>
