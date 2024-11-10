@@ -1,0 +1,42 @@
+<div class="glass-panel">
+  <div class="header">
+    <h1 id="contact_heading">Contact</h1>
+    <p>Do you want to know more about me? Then feel free to contact me.</p>
+  </div>
+  <div class="content">
+    <div *ngIf="isContactFormSubmitted">
+      Thank you for reaching out! Your message has been successfully sent. I'll get back to you as soon as I can.
+    </div>
+    <form
+      *ngIf="!isContactFormSubmitted"
+      name="contactForm"
+      [formGroup]="contactForm"
+      method="POST"
+      (ngSubmit)="onSubmit($event)"
+      netlify>
+      <!-- This input field is very important to add, at least when we submit the form, making sure Netlify can receive the submission  -->
+      <input type="hidden" name="form-name" value="contact"/>
+      <label for="name">Name</label>
+      <div *ngIf="name && name.invalid && (name.dirty)" class="alert alert-danger">
+        <small *ngIf="name.errors?.['required']">Name is required</small>
+      </div>
+      <input id="name" type="text" formControlName="name" required/>
+
+      <label for="email">Email</label>
+      <div
+        *ngIf="email && email.invalid && (email.dirty)"
+        class="alert alert-danger">
+        <small *ngIf="email.errors?.['required']">Email is required</small>
+        <small *ngIf="email.errors?.['email']">Enter a valid email address</small>
+      </div>
+      <input id="email" type="email" formControlName="email" required/>
+
+      <label for="body">Message</label>
+      <div *ngIf="body && body.invalid && (body.dirty)" class="alert alert-danger">
+        <small *ngIf="body.errors?.['required']">Message is required</small>
+      </div>
+      <textarea id="body" type="text" rows="4" cols="50" formControlName="body" required></textarea>
+      <button type="submit" [disabled]="!contactForm.valid">Send message</button>
+    </form>
+  </div>
+</div>
